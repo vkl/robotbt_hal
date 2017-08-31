@@ -40,10 +40,14 @@
 
 extern uint8_t count;
 extern uint8_t status;
+extern uint8_t arm_status;
 extern uint8_t drv1;
 extern uint8_t drv2;
 extern uint8_t cmd[RXNUM];
 extern uint8_t response[TXNUM];
+
+uint8_t i;
+uint8_t j;
 
 /* USER CODE END 0 */
 
@@ -215,18 +219,7 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-  HAL_UART_Receive_IT(&huart1, (uint8_t *)cmd, RXNUM);
-  
-  response[0] = STARTMARKER;
-  response[1] = status;
-  response[2] = drv1;
-  response[3] = drv2;
-  response[4] = 0;
-  response[5] = 0;
-  response[6] = STOPMARKER;
-  
-  HAL_UART_Transmit_IT(&huart1, (uint8_t *)response, TXNUM);
-    
+  HAL_UART_Receive_IT(&huart1, (uint8_t *)response, RXNUM);
   /* USER CODE END USART1_IRQn 1 */
 }
 
@@ -234,11 +227,32 @@ void USART1_IRQHandler(void)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+  
+  i = 0;
+  j = 0;
+  for (i=0; i<=RXNUM; i++)
+  {
+    if (response[i] == STARTMARKER) break;
+  }
+  
+  for (j=0; j<=RXNUM; j++)
+  {
+    if ((i+j) >= RXNUM)
+    {
+      cmd[j] = response[(i + j) - RXNUM];
+    }
+    else
+    {
+      cmd[j] = response[j+i];
+    }
+  }
+  
   if (cmd[0] == STARTMARKER && cmd[RXNUM-1] == STOPMARKER)
   {
     status = cmd[1];
     drv1 = cmd[2];
     drv2 = cmd[3];
+    arm_status = cmd[4];
     count = 0;
   }  
 }

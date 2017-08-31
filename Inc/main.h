@@ -1,8 +1,13 @@
 /**
   ******************************************************************************
-  * File Name          : mxconstants.h
+  * File Name          : main.h
   * Description        : This file contains the common defines of the application
   ******************************************************************************
+  ** This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
   * COPYRIGHT(c) 2017 STMicroelectronics
   *
@@ -31,8 +36,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MXCONSTANT_H
-#define __MXCONSTANT_H
+#ifndef __MAIN_H
+#define __MAIN_H
   /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
@@ -43,9 +48,18 @@
 
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
+#define LIFT_UP_Pin GPIO_PIN_4
+#define LIFT_UP_GPIO_Port GPIOB
+#define LIFT_DOWN_Pin GPIO_PIN_5
+#define LIFT_DOWN_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
+
+void _Error_Handler(char *, int);
+
+#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
 
 /**
   * @}
@@ -55,5 +69,5 @@
   * @}
 */ 
 
-#endif /* __MXCONSTANT_H */
+#endif /* __MAIN_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

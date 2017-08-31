@@ -12,12 +12,50 @@
 extern uint8_t status;
 extern uint8_t drv1;
 extern uint8_t drv2;
+extern uint8_t arm_status;
 
 extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim2;
+
+uint8_t tmp = 0;
 
 
 void status_handler(void)
 {
+  
+  if  (arm_status == ARM_CMD_UP) 
+  {
+      HAL_GPIO_WritePin(GPIOB, LIFT_UP_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(GPIOB, LIFT_DOWN_Pin, GPIO_PIN_RESET);
+      tmp = 1;
+  }
+  else if (arm_status == ARM_CMD_DOWN)
+  {
+      HAL_GPIO_WritePin(GPIOB, LIFT_UP_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(GPIOB, LIFT_DOWN_Pin, GPIO_PIN_SET);
+      tmp = 2;
+  } 
+  else if (arm_status == ARM_CMD_GRAB)
+  {
+    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_1, ARMMIDPWM);
+    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_2, MINPWM);
+    tmp = 3;
+  } 
+  else if (arm_status == ARM_CMD_RELEASE)
+  {
+    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_1, MINPWM);
+    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_2, ARMMIDPWM);
+    tmp = 4; 
+  } 
+  else 
+  {
+      HAL_GPIO_WritePin(GPIOB, LIFT_UP_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(GPIOB, LIFT_DOWN_Pin, GPIO_PIN_RESET);
+      tmp = 0;
+    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_1, MINPWM);
+    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_2, MINPWM);
+  }
+  
   if  (Status_AUTO & status)
   {
     switch (0x0F & status)

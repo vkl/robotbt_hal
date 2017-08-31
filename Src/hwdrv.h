@@ -25,7 +25,8 @@
 /* PWM consts */
 #define MINPWM      0
 #define MAXPWM      127
-#define MIDPWM      62
+#define MIDPWM      64
+#define ARMMIDPWM   35
 #define SPWM        90
 #define SBPWM       34
 
@@ -43,9 +44,14 @@
 #define Status_CALIB        0x20 // 0b00100000
 #define Status_AUTO         0x40 // 0b01000000
 #define Status_OK           0x80 // 0b10000000 
+#define ARM_CMD_NO          0x00 // No command
+#define ARM_CMD_UP          0x01
+#define ARM_CMD_DOWN        0x02
+#define ARM_CMD_GRAB        0x04
+#define ARM_CMD_RELEASE     0x08
 
 #define TXNUM 7
-#define RXNUM 5
+#define RXNUM 6
 #define FAILURES 4
 #define CALIBRATENUM 10
 #define STARTMARKER		0x81
