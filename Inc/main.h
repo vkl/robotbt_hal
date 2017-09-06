@@ -48,6 +48,10 @@
 
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
+#define ARM_RELEASE_Pin GPIO_PIN_15
+#define ARM_RELEASE_GPIO_Port GPIOA
+#define ARM_GRUB_Pin GPIO_PIN_3
+#define ARM_GRUB_GPIO_Port GPIOB
 #define LIFT_UP_Pin GPIO_PIN_4
 #define LIFT_UP_GPIO_Port GPIOB
 #define LIFT_DOWN_Pin GPIO_PIN_5

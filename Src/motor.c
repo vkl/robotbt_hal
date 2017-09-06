@@ -37,14 +37,14 @@ void status_handler(void)
   } 
   else if (arm_status == ARM_CMD_GRAB)
   {
-    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_1, ARMMIDPWM);
-    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_2, MINPWM);
+    HAL_GPIO_WritePin(ARM_GRUB_GPIO_Port, ARM_GRUB_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(ARM_RELEASE_GPIO_Port, ARM_RELEASE_Pin, GPIO_PIN_RESET);
     tmp = 3;
   } 
   else if (arm_status == ARM_CMD_RELEASE)
   {
-    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_1, MINPWM);
-    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_2, ARMMIDPWM);
+    HAL_GPIO_WritePin(ARM_GRUB_GPIO_Port, ARM_GRUB_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(ARM_RELEASE_GPIO_Port, ARM_RELEASE_Pin, GPIO_PIN_SET);
     tmp = 4; 
   } 
   else 
@@ -52,8 +52,8 @@ void status_handler(void)
       HAL_GPIO_WritePin(GPIOB, LIFT_UP_Pin, GPIO_PIN_RESET);
       HAL_GPIO_WritePin(GPIOB, LIFT_DOWN_Pin, GPIO_PIN_RESET);
       tmp = 0;
-    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_1, MINPWM);
-    __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_2, MINPWM);
+      HAL_GPIO_WritePin(ARM_GRUB_GPIO_Port, ARM_GRUB_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(ARM_RELEASE_GPIO_Port, ARM_RELEASE_Pin, GPIO_PIN_RESET);
   }
   
   if  (Status_AUTO & status)
